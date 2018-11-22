@@ -8,6 +8,44 @@ This exercice was completed using Python 3
 Before downloading the source files of the project, I recommend to download and open the html file *notebook.html*. It is a **Jupyter notebook** 
 which describes my work (and my code of course!) with explanations, comments and tests example in a user friendly interface.
 
+## Description of exercice
+This exercice deals with The Exchange Rate Path Problem  
+    We receive a serie of price updates:  
+    **[timestamp] [exchange] [source_currency] [destination_currency] [forward_factor] [backward_factor]**
+     For instance:
+     2017-11-01T09:42:23+00:00 KRAKEN BTC USD 1000.0 0.0009
+      *Which means that **a price update was received** from Kraken on November 1, 2017 at 9:42 am. The update says **1 BTC = 1000 USD** and  **1 USD = 0.0009 BTC***
+      Price updates are **not guaranteed** to arrive in chronological order so we have to consider only the most recent price update for each (source_currency, destination_currency) pair.
+      
+  
+ We have to store these data in a graph:
+**Example:**  
+We receive the following price_update stream:
+**2017-11-01T09:42:23+00:00 KRAKEN BTC USD 1000.0 0.0009  2017-11-01T09:43:23+00:00 GDAX BTC USD 1001.0 0.0008**
+  We have to create the following graph:
+							(KRAKEN, BTC) -- 1000.0 --> (KRAKEN, USD)  
+                          (KRAKEN, USD) -- 0.0009 --> (KRAKEN, BTC)  
+                          (GDAX, BTC) -- 1001.0 --> (GDAX, USD)  
+                          (GDAX, USD) -- 0.0008 --> (GDAX, BTC)  
+                          (KRAKEN, BTC) -- 1.0 --> (GDAX, BTC)  
+                          (GDAX, BTC) -- 1.0 --> (KRAKEN, BTC)  
+                          (KRAKEN, USD) -- 1.0 --> (GDAX, USD)  
+                          (GDAX, USD) -- 1.0 --> (KRAKEN, USD)
+  
+Then we receive an exchange rate request  
+**EXCHANGE_RATE_REQUEST [source_exchange] [source_currency] [destination_exchange] [destination_currency]**
+
+ For instance:  
+  **EXCHANGE_RATE_REQUEST KRAKEN BTC GDAX USD**
+*With this rate_request, we have to return the **best possible exchange rate** as well as the **trades and transfers needed** to achieve that rate*
+       
+  
+
+###The main goal of this exercice is to create a program that can:
+* Manage the reception of price updates information  
+* Organize them in a graph  
+* Find the best rate for a trade between two pairs (ExchangeA, CurrencyA) / (ExchangeB, CurrencyB)  
+
 ## Download files
 Clone or download the 4 python files of the *source* repository:   
 - vertex.py  
@@ -22,47 +60,6 @@ The 4 files have to be in the same repository!
 * Networkx: $ pip install networkx==2.2 (graph library)
 * Matplotlib: $ pip install -U matplotlib (allows to draw and display a graph)
 
-This exercice deals with The Exchange Rate Path Problem  
-    We receive a serie of price updates:  
-    **[timestamp] [exchange] [source_currency] [destination_currency] [forward_factor] [backward_factor]**
-      
-      For instance:  
-       **2017-11-01T09:42:23+00:00 KRAKEN BTC USD 1000.0 0.0009**
-      *Which means that **a price update was received** from Kraken on November 1, 2017 at 9:42 am. The update says **1 BTC = 1000 USD** and  **1 USD = 0.0009 BTC***
-      
-      
-      Price updates are **not guaranteed** to arrive in chronological order so we have to consider only the most
-recent price update for each (source_currency, destination_currency) pair.
-      
-  
- We have to store these data in a graph.
-  
-    **Example:**  
-    We receive the following price_update stream:
-    **2017-11-01T09:42:23+00:00 KRAKEN BTC USD 1000.0 0.0009  2017-11-01T09:43:23+00:00 GDAX BTC USD 1001.0 0.0008**
-      We have to create the following graph:
-     <div style="color:blue;">(KRAKEN, BTC) -- 1000.0 --> (KRAKEN, USD)  
-                              (KRAKEN, USD) -- 0.0009 --> (KRAKEN, BTC)  
-                              (GDAX, BTC) -- 1001.0 --> (GDAX, USD)  
-                              (GDAX, USD) -- 0.0008 --> (GDAX, BTC)  
-                              (KRAKEN, BTC) -- 1.0 --> (GDAX, BTC)  
-                              (GDAX, BTC) -- 1.0 --> (KRAKEN, BTC)  
-                              (KRAKEN, USD) -- 1.0 --> (GDAX, USD)  
-                              (GDAX, USD) -- 1.0 --> (KRAKEN, USD)</div>
-  
-Then we receive an exchange rate request  
-    **EXCHANGE_RATE_REQUEST [source_exchange] [source_currency] [destination_exchange] [destination_currency]**
-      
-      For instance:  
-      **EXCHANGE_RATE_REQUEST KRAKEN BTC GDAX USD**
-  *With this rate_request, we have to return the **best possible exchange rate** as well as the **trades and transfers needed** to achieve that rate*
-       
-  
-
-###The main goal of this exercice is to create a program that can:
-* Manage the reception of price updates information  
-* Organize them in a graph  
-* Find the best rate for a trade between two pairs (ExchangeA, CurrencyA) / (ExchangeB, CurrencyB)  
 
 ## Run the project
 **Open the *main.py* file**  
