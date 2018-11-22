@@ -10,12 +10,12 @@ which describes my work (and my code of course!) with explanations, comments and
 
 ## Description of exercice
 This exercice deals with The Exchange Rate Path Problem  
-    We receive a serie of price updates:  
-    **[timestamp] [exchange] [source_currency] [destination_currency] [forward_factor] [backward_factor]**
-     For instance:
-     2017-11-01T09:42:23+00:00 KRAKEN BTC USD 1000.0 0.0009
-      *Which means that **a price update was received** from Kraken on November 1, 2017 at 9:42 am. The update says **1 BTC = 1000 USD** and  **1 USD = 0.0009 BTC***
-      Price updates are **not guaranteed** to arrive in chronological order so we have to consider only the most recent price update for each (source_currency, destination_currency) pair.
+We receive a serie of price updates:  
+**[timestamp] [exchange] [source_currency] [destination_currency] [forward_factor] [backward_factor]**
+For instance:
+2017-11-01T09:42:23+00:00 KRAKEN BTC USD 1000.0 0.0009
+*Which means that **a price update was received** from Kraken on November 1, 2017 at 9:42 am. The update says **1 BTC = 1000 USD** and  **1 USD = 0.0009 BTC***
+Price updates are **not guaranteed** to arrive in chronological order so we have to consider only the most recent price update for each (source_currency, destination_currency) pair.
       
   
  We have to store these data in a graph:
@@ -23,14 +23,14 @@ This exercice deals with The Exchange Rate Path Problem
 We receive the following price_update stream:
 **2017-11-01T09:42:23+00:00 KRAKEN BTC USD 1000.0 0.0009  2017-11-01T09:43:23+00:00 GDAX BTC USD 1001.0 0.0008**
   We have to create the following graph:
-							(KRAKEN, BTC) -- 1000.0 --> (KRAKEN, USD)  
-                          (KRAKEN, USD) -- 0.0009 --> (KRAKEN, BTC)  
-                          (GDAX, BTC) -- 1001.0 --> (GDAX, USD)  
-                          (GDAX, USD) -- 0.0008 --> (GDAX, BTC)  
-                          (KRAKEN, BTC) -- 1.0 --> (GDAX, BTC)  
-                          (GDAX, BTC) -- 1.0 --> (KRAKEN, BTC)  
-                          (KRAKEN, USD) -- 1.0 --> (GDAX, USD)  
-                          (GDAX, USD) -- 1.0 --> (KRAKEN, USD)
+(KRAKEN, BTC) -- 1000.0 --> (KRAKEN, USD)  
+(KRAKEN, USD) -- 0.0009 --> (KRAKEN, BTC)  
+(GDAX, BTC) -- 1001.0 --> (GDAX, USD)  
+(GDAX, USD) -- 0.0008 --> (GDAX, BTC)  
+(KRAKEN, BTC) -- 1.0 --> (GDAX, BTC)  
+(GDAX, BTC) -- 1.0 --> (KRAKEN, BTC)  
+(KRAKEN, USD) -- 1.0 --> (GDAX, USD)  
+(GDAX, USD) -- 1.0 --> (KRAKEN, USD)
   
 Then we receive an exchange rate request  
 **EXCHANGE_RATE_REQUEST [source_exchange] [source_currency] [destination_exchange] [destination_currency]**
