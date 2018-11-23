@@ -5,7 +5,7 @@ Hugo Brunet - 10th, november 2018
 This exercice was completed using Python 3
 
 ## Download notebook.html 
-Before downloading the source files of the project, I recommend to download and open the html file *notebook.html*. It is a **Jupyter notebook** 
+Before running the project, I recommend to download the source files and to open the html file *notebook.html*. It is a **Jupyter notebook** 
 which describes my work (and my code of course!) with explanations, comments and tests example in a user friendly interface.
 
 ## Description of exercice
